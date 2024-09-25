@@ -25,7 +25,7 @@ export default function Home() {
       setIsFetchingSummary(true); // Set fetching summary state to true
       interval = setInterval(async () => {
         try {
-          const response = await axios.get(`https://chatbot-beckand.onrender.com/getSummary/${storyId}`);
+          const response = await axios.get(`https://characterai-backend.onrender.com/getSummary/${storyId}`);
           if (response.status === 200) {
             setGeneratedStory(response.data.summary);
             clearInterval(interval);
@@ -47,7 +47,7 @@ export default function Home() {
       setStoryId(null);
 
       // Submit the story
-      const addResponse = await axios.post("https://chatbot-beckand.onrender.com/submitStory", { story },{
+      const addResponse = await axios.post("https://characterai-backend.onrender.com/submitStory", { story },{
         withCredentials: true,
         timeout: 30000
       });

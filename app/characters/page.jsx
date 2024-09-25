@@ -74,7 +74,7 @@ function CharacterCardGridContent({ story }) {
         setError('');
         
         try {
-          const response = await axios.post('https://chatbot-beckand.onrender.com/charactername', { story });
+          const response = await axios.post('https://characterai-backend.onrender.com/charactername', { story });
           const characterNames = response.data.response.split(', ');
 
           const newCharacters = characterNames.map((name) => ({

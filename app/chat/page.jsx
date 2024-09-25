@@ -68,7 +68,7 @@ export default function ChattingPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://chatbot-beckand.onrender.com/ask', {
+      const response = await axios.post('https://characterai-backend.onrender.com/ask', {
         query: inputMessage,
         characterName: character.name,
         summarizedStory: summarizedStory
