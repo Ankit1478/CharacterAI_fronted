@@ -111,7 +111,7 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Show loader while fetching summary */}
+ 
         {isFetchingSummary && (
           <div className="flex justify-center mt-8">
             <Loader2 className="mr-2 h-6 w-6 animate-spin" />
