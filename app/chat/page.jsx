@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import axios from 'axios'
 import Image from 'next/image'
@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, ArrowLeft, Send, Sword, Shield } from 'lucide-react'
+import { Loader2, ArrowLeft, Send, Shield } from 'lucide-react'
 
+// Avatar component remains unchanged
 const Avatar = ({ src, alt, size = 'small', className = '' }) => (
   <div className={`rounded-full overflow-hidden flex-shrink-0 ${size === 'large' ? 'w-24 h-24' : 'w-10 h-10'} ${className}`}>
     <Image
@@ -23,6 +24,7 @@ const Avatar = ({ src, alt, size = 'small', className = '' }) => (
   </div>
 )
 
+// MessageBubble component remains unchanged
 const MessageBubble = ({ children, isUser = false }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
@@ -40,6 +42,7 @@ const MessageBubble = ({ children, isUser = false }) => (
   </motion.div>
 )
 
+// LoadingAnimation component remains unchanged
 const LoadingAnimation = () => (
   <motion.div 
     initial={{ opacity: 0 }}
@@ -70,9 +73,19 @@ const LoadingAnimation = () => (
   </motion.div>
 )
 
-export default function ChattingPage() {
-  const router = useRouter()
+// New wrapper component for search params
+function SearchParamsWrapper({ children }) {
   const searchParams = useSearchParams()
+  const name = searchParams.get('name')
+  const story = searchParams.get('story')
+  const imageSrc = searchParams.get('imageSrc')
+  
+  return children({ name, story, imageSrc })
+}
+
+// Main chat content component
+function ChatContent({ name, story, imageSrc }) {
+  const router = useRouter()
   const [character, setCharacter] = useState(null)
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
@@ -82,16 +95,12 @@ export default function ChattingPage() {
   const messagesEndRef = useRef(null)
 
   useEffect(() => {
-    const name = searchParams.get('name')
-    const story = searchParams.get('story')
-    const imageSrc = searchParams.get('imageSrc')
-    
     if (name && imageSrc && story) {
       setCharacter({ name, imageSrc })
       setSummarizedStory(story)
       setMessages([{ sender: name, content: `Hail, brave adventurer! I am ${name}, guardian of these realms. What quest brings you to my domain?` }])
     }
-  }, [searchParams])
+  }, [name, imageSrc, story])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -113,7 +122,7 @@ export default function ChattingPage() {
       })
       const characterResponse = { sender: character.name, content: response.data.response }
       setMessages(prevMessages => [...prevMessages, characterResponse])
-      setXp(prevXp => prevXp + Math.floor(Math.random() * 15) + 5) // Random XP gain
+      setXp(prevXp => prevXp + Math.floor(Math.random() * 15) + 5)
     } catch (error) {
       console.error("Error getting character response:", error)
       setMessages(prevMessages => [...prevMessages, { sender: character.name, content: "By the ancient powers! Our mystical connection wavers. Let us attempt to reconnect, brave one!" }])
@@ -238,3 +247,19 @@ export default function ChattingPage() {
   )
 }
 
+// Main component with Suspense boundary
+export default function ChattingPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen bg-gray-900">
+        <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
+      </div>
+    }>
+      <SearchParamsWrapper>
+        {({ name, story, imageSrc }) => (
+          <ChatContent name={name} story={story} imageSrc={imageSrc} />
+        )}
+      </SearchParamsWrapper>
+    </Suspense>
+  )
+}

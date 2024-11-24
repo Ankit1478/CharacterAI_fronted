@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Loader2, MessageSquare } from 'lucide-react'
 
+// CharacterCard component remains unchanged
 function CharacterCard({ imageSrc, name, author, description, onClick }) {
   return (
     <motion.div
@@ -59,6 +60,14 @@ function CharacterCard({ imageSrc, name, author, description, onClick }) {
       </Card>
     </motion.div>
   )
+}
+
+// Separate component for search params handling
+function SearchParamsWrapper({ children }) {
+  const searchParams = useSearchParams()
+  const story = searchParams.get('story')
+  
+  return children(story)
 }
 
 function CharacterCardGridContent({ story }) {
@@ -159,9 +168,6 @@ function CharacterCardGridContent({ story }) {
 }
 
 export default function CharacterCardGrid() {
-  const searchParams = useSearchParams()
-  const story = searchParams.get('story')
-
   return (
     <div className="min-h-screen bg-[#0a0a0a] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
@@ -171,10 +177,11 @@ export default function CharacterCardGrid() {
             <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
           </div>
         }>
-          {story !== null && <CharacterCardGridContent story={story} />}
+          <SearchParamsWrapper>
+            {(story) => story !== null && <CharacterCardGridContent story={story} />}
+          </SearchParamsWrapper>
         </Suspense>
       </div>
     </div>
   )
 }
-
