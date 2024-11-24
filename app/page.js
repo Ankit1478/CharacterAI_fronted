@@ -7,8 +7,8 @@ import { Typewriter } from 'react-simple-typewriter'
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Sparkles } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Loader2, Sparkles, BookOpen, MessageSquare, Wand2 } from 'lucide-react'
 
 export default function Home() {
   const [story, setStory] = useState('')
@@ -77,25 +77,62 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="text-center space-y-8 max-w-4xl mx-auto"
+          className="text-center space-y-12 max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-            Enter the Realm of Stories
-          </h1>
-  
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Forge legendary tales and bring characters to life in an epic adventure
-          </p>
+          <div className="space-y-6">
+            <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
+              AI Story & Character Chat
+            </h1>
+            
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+              Create unique stories and chat with AI-generated characters from your narrative
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-black/50 border border-gray-800 backdrop-blur-xl">
+              <CardHeader>
+                <BookOpen className="w-8 h-8 text-purple-400 mb-2" />
+                <CardTitle className="text-gray-200">1. Write Prompt</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Enter a story prompt or scenario to begin your adventure
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-black/50 border border-gray-800 backdrop-blur-xl">
+              <CardHeader>
+                <Wand2 className="w-8 h-8 text-purple-400 mb-2" />
+                <CardTitle className="text-gray-200">2. Generate Story</CardTitle>
+                <CardDescription className="text-gray-400">
+                  AI crafts a unique narrative based on your prompt
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-black/50 border border-gray-800 backdrop-blur-xl">
+              <CardHeader>
+                <MessageSquare className="w-8 h-8 text-purple-400 mb-2" />
+                <CardTitle className="text-gray-200">3. Chat Characters</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Interact with AI characters from your story
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
   
           <Card className="bg-black/50 border border-gray-800 backdrop-blur-xl">
             <CardHeader>
-              <CardTitle className="text-gray-200">Begin Your Tale</CardTitle>
+              <CardTitle className="text-gray-200">Begin Your Adventure</CardTitle>
+              <CardDescription className="text-gray-400">
+                Write a story prompt or scenario to generate your unique tale
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col md:flex-row gap-4">
                 <Input
                   type="text"
-                  placeholder="write your story title"
+                  placeholder="Enter your story prompt (e.g., 'A medieval adventure about a young wizard...')"
                   value={story}
                   onChange={(e) => setStory(e.target.value)}
                   className="flex-grow bg-black/30 border-gray-800 text-gray-200 placeholder:text-gray-500"
@@ -109,12 +146,12 @@ export default function Home() {
                     {isLoading ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Conjuring
+                        Generating
                       </>
                     ) : (
                       <>
                         <Sparkles className="h-4 w-4" />
-                        Forge Story
+                        Create Story
                       </>
                     )}
                   </span>
@@ -133,7 +170,7 @@ export default function Home() {
                 className="flex items-center justify-center gap-3 text-purple-400"
               >
                 <Loader2 className="h-6 w-6 animate-spin" />
-                <span className="text-lg">Weaving your tale...</span>
+                <span className="text-lg">Crafting your story...</span>
               </motion.div>
             )}
   
@@ -146,7 +183,10 @@ export default function Home() {
               >
                 <Card className="bg-black/50 border border-gray-800 backdrop-blur-xl">
                   <CardHeader>
-                    <CardTitle className="text-gray-200">Your Epic Tale</CardTitle>
+                    <CardTitle className="text-gray-200">Your Generated Story</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Read your AI-generated story and proceed to chat with its characters
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <p className="text-lg text-gray-300 leading-relaxed">
@@ -164,12 +204,14 @@ export default function Home() {
                 </Card>
   
                 <Button
-                  variant="outline"
                   onClick={handleCharacterGeneration}
-                  className="relative group overflow-hidden border-gray-700 hover:border-purple-500 text-gray-200"
+                  className="relative group overflow-hidden bg-purple-900 hover:bg-purple-800 text-white transition-all duration-300"
                 >
-                  <span className="relative z-10">Summon Characters</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-blue-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4" />
+                    Start Chatting with Characters
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </motion.div>
             )}
@@ -190,4 +232,3 @@ export default function Home() {
     </div>
   )
 }
-
