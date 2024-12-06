@@ -25,7 +25,7 @@ export default function Home() {
       setIsFetchingSummary(true)
       interval = setInterval(async () => {
         try {
-          const response = await axios.get(`http://18.206.119.113:8080/getSummary/${storyId}`)
+          const response = await axios.get(`http://35.193.255.182:8080/getSummary/${storyId}`)
           if (response.status === 200) {
             setGeneratedStory(response.data.summary)
             clearInterval(interval)
@@ -46,7 +46,7 @@ export default function Home() {
       setGeneratedStory('')
       setStoryId(null)
 
-      const addResponse = await axios.post("http://18.206.119.113:8080/submitStory", { story }, {
+      const addResponse = await axios.post("http://35.193.255.182:8080/submitStory", { story }, {
         withCredentials: true,
         timeout: 30000
       })
