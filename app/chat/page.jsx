@@ -115,7 +115,7 @@ function ChatContent({ name, story, imageSrc }) {
     setIsLoading(true)
 
     try {
-      const response = await axios.post('http://18.206.119.113:8080/ask', {
+      const response = await axios.post('http://35.193.255.182:8080/ask', {
         query: inputMessage,
         characterName: character.name,
         summarizedStory: summarizedStory
