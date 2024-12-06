@@ -83,7 +83,7 @@ function CharacterCardGridContent({ story }) {
         setError('')
         
         try {
-          const response = await axios.post('http://18.206.119.113:8080/charactername', { story })
+          const response = await axios.post('http://35.193.255.182:8080/charactername', { story })
           const characterNames = response.data.response.split(', ')
 
           const newCharacters = characterNames.map((name) => ({
